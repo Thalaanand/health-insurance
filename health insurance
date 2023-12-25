@@ -1,0 +1,32 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract HealthInsurance {
+    address public policyHolder;
+    uint256 public premium;
+    uint256 public age;
+    bool public isInsured;
+
+    constructor() {
+        policyHolder = address(0);
+        isInsured = false;
+    }
+
+    function applyForInsurance(uint256 _age, uint256 _premium) public payable {
+        // Check if the applicant is applying for insurance only once
+        require(policyHolder == address(0), "You can apply for insurance only once");
+
+        assert(_age >= 35);
+
+        assert(_age <= 150);
+
+        if (_premium != 500) {
+            revert("Premium must be exactly 500");
+        }
+
+        policyHolder = msg.sender;
+        age = _age;
+        premium = _premium;
+        isInsured = true;
+    }
+}
